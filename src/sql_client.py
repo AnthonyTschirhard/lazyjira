@@ -68,8 +68,10 @@ class SQLClient():
 
 if __name__ == "__main__":
     client = SQLClient("/home/atschirhard/Sources/lazyjira/brother.db")
+
     print(client.get_total_time("GTMP-1") == 16.0)
     print(client.has_project("GTMP-1"))
-    print(client.has_project("GTMP-4") == False)
+    print(not client.has_project("GTMP-4"))
     client.set_project("GTMP-3", "Project D")
+
     input("end")
