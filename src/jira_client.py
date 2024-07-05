@@ -85,7 +85,7 @@ class JiraClient(JIRA):
     def get_my_issues(
         self,
     ) -> list[Issue]:
-        issues = super().search_issues(f"assignee={ME}")
+        issues = super().search_issues(f"assignee=currentUser()")
         return issues
 
 
@@ -96,15 +96,16 @@ if __name__ == "__main__":
     jira_token = os.environ['JIRA_API_TOKEN']
     myjira = JiraClient(jira_user, jira_token)
 
-    # new_issue = myjira.create_issue(
-    #     project=GTM_OPS,  # GTMP
-    #     summary="Final TEST",
-    #     description="SUPER Long description",
-    #     issue_type="Story",
-    #     assignee=ME,
-    #     parent='GTMP-2317',
-    #     story_points=123,
-    #     version="test release"
-    # )
+    new_issue = myjira.create_issue(
+        project=GTM_OPS,  # GTMP
+        summary="Assignee TEST2",
+        description="SUPER Long description",
+        issue_type="Story",
+        assignee=jira_user,
+        parent='GTMP-2317',
+        story_points=123,
+        version="test release"
+    )
 
     issues = myjira.get_my_issues()
+    x = 0
