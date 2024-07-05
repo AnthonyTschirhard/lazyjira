@@ -35,9 +35,41 @@ class SQLClient():
 
         return total_duration/3600
 
+    def has_project(
+        self,
+        task_name: str,
+    ) -> float:
+        """has task_name a project in the database"""
+
+        with self.engine.connect() as conn:
+            results = conn.exec_driver_sql((
+                "SELECT project "
+                "FROM tasks "
+                f"WHERE name = '{task_name}'"
+            )).all()
+
+        return bool(results)
+
+    def set_project(
+        self,
+        task_name: str,
+        project_name: str,
+    ) -> None:
+        """set task_name the project project_name"""
+
+        with self.engine.connect() as conn:
+            conn.exec_driver_sql((
+                "UPDATE tasks "
+                f"SET project = '{project_name}' "
+                f"WHERE name = '{task_name}'"
+            ))
+            conn.commit()
+
 
 if __name__ == "__main__":
     client = SQLClient("/home/atschirhard/Sources/lazyjira/brother.db")
     print(client.get_total_time("GTMP-1") == 16.0)
     print(client.has_project("GTMP-1"))
+    print(client.has_project("GTMP-4") == False)
+    client.set_project("GTMP-3", "Project D")
     input("end")
