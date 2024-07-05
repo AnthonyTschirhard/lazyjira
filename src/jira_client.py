@@ -85,8 +85,19 @@ class JiraClient(JIRA):
     def get_my_issues(
         self,
     ) -> list[Issue]:
-        issues = super().search_issues(f"assignee=currentUser()")
-        return issues
+        in_progress_issues = super().search_issues(
+            "assignee=currentUser() and status='In progress'",
+            maxResults=100,
+        )
+        todo_issues = super().search_issues(
+            "assignee=currentUser() and status='To do'",
+            maxResults=100,
+        )
+
+        return {
+            "IN PROGRESS": in_progress_issues,
+            "TO DO": todo_issues,
+        }
 
 
 if __name__ == "__main__":
@@ -108,4 +119,3 @@ if __name__ == "__main__":
     )
 
     issues = myjira.get_my_issues()
-    x = 0
