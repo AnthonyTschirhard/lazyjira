@@ -1,7 +1,12 @@
 CREATE TABLE tasks (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT,
+    name TEXT NOT NULL,
     project TEXT
+);
+
+CREATE TABLE projects (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL
 );
 
 CREATE TABLE work_hours (
@@ -9,6 +14,13 @@ CREATE TABLE work_hours (
     issue TEXT NOT NULL,
     start_time TIMESTAMP,
     end_time TIMESTAMP
+);
+
+CREATE TABLE time_allocation (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    project TEXT NOT NULL,
+    period TIMESTAMP NOT NULL,
+    allocated_time INTEGER NOT NULL
 );
 
 INSERT INTO tasks (name, project) VALUES ('GTMP-1', 'Project A');
