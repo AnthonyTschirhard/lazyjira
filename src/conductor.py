@@ -17,3 +17,5 @@ class Conductor():
 
 if __name__ == "__main__":
     jira = JiraClient(JIRA_USER, JIRA_TOKEN)
+
+    conductor = Conductor(jira)
