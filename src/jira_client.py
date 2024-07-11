@@ -1,3 +1,4 @@
+from envs import JIRA_USER, JIRA_TOKEN
 from jira import JIRA
 from jira.resources import Issue
 
@@ -101,18 +102,15 @@ class JiraClient(JIRA):
 
 
 if __name__ == "__main__":
-    import os
 
-    jira_user = os.environ['JIRA_USER']
-    jira_token = os.environ['JIRA_API_TOKEN']
-    myjira = JiraClient(jira_user, jira_token)
+    myjira = JiraClient(JIRA_USER, JIRA_TOKEN)
 
     new_issue = myjira.create_issue(
         project=GTM_OPS,  # GTMP
         summary="Assignee TEST2",
         description="SUPER Long description",
         issue_type="Story",
-        assignee=jira_user,
+        assignee=JIRA_USER,
         parent='GTMP-2317',
         story_points=123,
         version="test release"
