@@ -81,34 +81,30 @@ class JiraClient(JIRA):
     def get_my_issues(
         self,
     ) -> dict:
-        in_progress_issues = super().search_issues(
-            "assignee=currentUser() and status='In progress'",
-            maxResults=100,
-        )
-        todo_issues = super().search_issues(
-            "assignee=currentUser() and status='To do'",
-            maxResults=100,
-        )
+        issues = {}
 
-        return {
-            "IN PROGRESS": in_progress_issues,
-            "TO DO": todo_issues,
-        }
+        for status in ["In progress", "To do"]:
+            issues[status.upper()] = super().search_issues(
+                f"assignee=currentUser() and status='{status}'",
+                maxResults=100,
+            )
+
+        return issues
 
 
 if __name__ == "__main__":
 
     myjira = JiraClient(JIRA_USER, JIRA_TOKEN)
 
-    new_issue = myjira.create_issue(
-        project=GTM_OPS,  # GTMP
-        summary="Assignee TEST2",
-        description="SUPER Long description",
-        issue_type="Story",
-        assignee=JIRA_USER,
-        parent='GTMP-2317',
-        story_points=123,
-        version="test release"
-    )
+    # new_issue = myjira.create_issue(
+    #     project=GTM_OPS,  # GTMP
+    #     summary="Assignee TEST2",
+    #     description="SUPER Long description",
+    #     issue_type="Story",
+    #     assignee=JIRA_USER,
+    #     parent='GTMP-2317',
+    #     story_points=123,
+    #     version="test release"
+    # )
 
     issues = myjira.get_my_issues()
