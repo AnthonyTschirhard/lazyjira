@@ -14,7 +14,7 @@ CREATE TABLE task (
     created_date TIMESTAMP,
     updated_date TIMESTAMP,
     due_date TIMESTAMP,
-    priority TEXT CHECK( priority IN ('Low','Medium','High') ) NOT NULL DEFAULT 'Medium',
+    priority TEXT CHECK( priority IN ('Low','Medium','High') ) NOT NULL DEFAULT 'Medium'
 );
 
 CREATE TABLE work_hour (
