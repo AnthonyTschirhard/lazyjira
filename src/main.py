@@ -27,3 +27,12 @@ if __name__ == "__main__":
 
     # Get Jira issues
     issues = jira_client.get_my_issues()
+
+    for issue in issues:
+        print(
+            f"{issue.key}: {issue.fields.issuetype.name}"
+        )
+        if issue.fields.issuetype.name == "Task":
+            print(f"    {issue.fields.issuetype.description}")
+
+    input("end")
