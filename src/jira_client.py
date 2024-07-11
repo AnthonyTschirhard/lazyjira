@@ -1,11 +1,6 @@
-from envs import JIRA_USER, JIRA_TOKEN
+from envs import JIRA_USER, JIRA_TOKEN, JIRA_SERVER, GTM_OPS
 from jira import JIRA
 from jira.resources import Issue
-
-
-JIRA_SERVER = "https://bic-americas.atlassian.net/"
-ME = '712020:a61ed3d4-7c90-4665-b6fc-09cb0c7c69be'
-GTM_OPS = 12401
 
 
 class JiraClient(JIRA):
