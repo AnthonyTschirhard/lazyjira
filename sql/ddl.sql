@@ -8,6 +8,7 @@ CREATE TABLE task (
     name TEXT NOT NULL,
     project TEXT NOT NULL,
     status TEXT CHECK( status IN ('ToDo','InProgress','Done') ) NOT NULL DEFAULT 'ToDo',
+    jira_id TEXT,
     description TEXT,
     complexity INTEGER,
     parent INTEGER,
