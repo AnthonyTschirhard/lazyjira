@@ -80,7 +80,7 @@ class JiraClient(JIRA):
 
     def get_my_issues(
         self,
-    ) -> list[Issue]:
+    ) -> dict:
         in_progress_issues = super().search_issues(
             "assignee=currentUser() and status='In progress'",
             maxResults=100,
