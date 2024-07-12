@@ -1,38 +1,54 @@
-import os
+from textual.app import App, ComposeResult
+from textual.widgets import Header, Footer, Static
+from textual.scroll_view import ScrollableContainer
+
+from conductor import Conductor
 from jira_client import JiraClient
-from sql_client import SQLClient
 
-from jira_client import GTM_OPS
 
-DB_PATH = "/home/atschirhard/Sources/lazyjira/brother.db"
+class LazyJiraApp(App):
+    """A Textual app to manage stopwatches."""
+    CSS_PATH = "grid_layout.tcss"
+
+    BINDINGS = [
+        ("d", "toggle_dark", "Toggle dark mode"),
+        ("q", "quit", "Quit the app"),
+    ]
+
+    def __init__(
+        self,
+        conductor: Conductor,
+    ):
+        super().__init__()
+
+        self.conductor = conductor
+
+    def compose(self) -> ComposeResult:
+        """Create child widgets for the app."""
+        yield Header()
+        yield ScrollableContainer(
+            *[
+                Static(name)
+                for name in self.conductor.get_issues()
+            ]
+        )
+        yield Static("Two", classes="box")
+        yield Static("Three", classes="box")
+        yield Static("Four", classes="box")
+        yield Static("Five", classes="box")
+        yield Static("Six", classes="box")
+        yield Footer()
+
+    def action_toggle_dark(self) -> None:
+        """An action to toggle dark mode."""
+        self.dark = not self.dark
+
 
 if __name__ == "__main__":
 
-    # Initialize objects
-    jira_user = os.environ['JIRA_USER']
-    jira_token = os.environ['JIRA_API_TOKEN']
-    jira_client = JiraClient(jira_user, jira_token)
-    sql_client = SQLClient(DB_PATH)
+    from envs import JIRA_USER, JIRA_TOKEN
+    jira = JiraClient(JIRA_USER, JIRA_TOKEN)
+    conductor = Conductor(jira)
 
-    # new_issue = jira_client.create_issue(
-    #     project=GTM_OPS,  # GTMP
-    #     summary="Super TEST",
-    #     description="SUPER Long description",
-    #     issue_type="Story",
-    #     assignee=jira_user,
-    #     parent='GTMP-2317',
-    #     story_points=123,
-    #     version="test release"
-    # )
-
-    # Get Jira issues
-    issues = jira_client.get_my_issues()
-
-    for issue in issues:
-        print(
-            f"{issue.key}: {issue.fields.issuetype.name}"
-        )
-        if issue.fields.issuetype.name == "Task":
-            print(f"    {issue.fields.issuetype.description}")
-
-    input("end")
+    app = LazyJiraApp(conductor)
+    app.run()
