@@ -8,7 +8,7 @@ class BaseTask():
     def __init__(
         self,
         id: int,
-        name: str,
+        summary: str,
         project: str,
         status: str,
         jira_id: str,
@@ -21,9 +21,9 @@ class BaseTask():
         priority: str,
     ):
         # checks
-        if status not in [None, 'ToDo', 'InProgress', 'Done']:
+        if status not in [None, 'ToDo', 'In Progress', 'Done']:
             raise ValueError(
-                f"{status} not in ['ToDo','InProgress','Done']"
+                f"{status} not in ['ToDo','In Progress','Done']"
             )
 
         if priority not in [None, 'Low', 'Medium', 'High']:
@@ -32,7 +32,7 @@ class BaseTask():
             )
 
         self.id = id
-        self.name = name
+        self.summary = summary
         self.project = project
         self.status = status
         self.jira_id = jira_id
@@ -62,9 +62,9 @@ class JiraTask(BaseTask):
         issue: JiraIssue,
     ):
 
-        jira_id = issue.get_field("key")
-        name = issue.get_field("name")
-        status = issue.get_field("status")
+        jira_id = issue.key
+        summary = issue.get_field("summary")
+        status = issue.get_field("status").name
         # project =
         # description =
         # complexity =
@@ -76,7 +76,7 @@ class JiraTask(BaseTask):
 
         super().__init__(
             id=None,
-            name=name,
+            summary=summary,
             project=None,
             status=status,
             jira_id=jira_id,
