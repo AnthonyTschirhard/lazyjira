@@ -21,9 +21,9 @@ class BaseTask():
         priority: str,
     ):
         # checks
-        if status not in [None, 'ToDo', 'In Progress', 'Done']:
+        if status not in [None, 'To Do', 'In Progress', 'Done']:
             raise ValueError(
-                f"{status} not in ['ToDo','In Progress','Done']"
+                f"{status} not in ['To Do','In Progress','Done']"
             )
 
         if priority not in [None, 'Low', 'Medium', 'High']:
