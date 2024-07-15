@@ -2,9 +2,14 @@ Screen {
     layout: grid;
     grid-size: 3;
     grid-columns: 2fr 1fr 1fr;
+    background: $background;
 }
 
 .box {
     height: 100%;
     border: solid green;
+}
+
+.task {
+    background: $primary-background-darken-1;
 }
