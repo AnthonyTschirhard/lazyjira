@@ -28,9 +28,9 @@ class LazyJiraApp(App):
         yield Header()
         yield ScrollableContainer(
             *[
-                Static(name)
+                Static(name, classes="task")
                 for name in self.conductor.get_issues()
-            ]
+            ], classes="box"
         )
         yield Static("Two", classes="box")
         yield Static("Three", classes="box")
