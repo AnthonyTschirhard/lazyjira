@@ -21,7 +21,7 @@ class Conductor():
         issues = self.jira.get_my_issues()
         return_ = [
             JiraTask(issue).summary
-            for issue in issues["IN PROGRESS"]
+            for issue in issues["IN PROGRESS"] + issues["TO DO"]
         ]
 
         return return_
