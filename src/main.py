@@ -26,12 +26,13 @@ class LazyJiraApp(App):
     def compose(self) -> ComposeResult:
         """Create child widgets for the app."""
         yield Header()
-        yield ScrollableContainer(
+        container = ScrollableContainer(
             *[
-                Static(name, classes="task")
+                Static(name)
                 for name in self.conductor.get_issues()
             ], classes="box"
         )
+        yield container
         yield Static("Two", classes="box")
         yield Static("Three", classes="box")
         yield Static("Four", classes="box")

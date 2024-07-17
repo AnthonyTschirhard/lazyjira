@@ -10,6 +10,10 @@ Screen {
     border: solid green;
 }
 
-.task {
+Static:focus-within {
     background: $primary-background-darken-1;
+}
+
+Static:blur {
+    background: $background;
 }
