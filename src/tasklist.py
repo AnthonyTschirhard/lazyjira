@@ -1,5 +1,6 @@
 from textual.app import ComposeResult
 from textual.screen import Screen
+from textual.events import Focus, Blur
 from textual.widgets import Static
 from textual.scroll_view import ScrollableContainer
 
@@ -10,17 +11,12 @@ class TaskList(Screen):
     def __init__(
         self,
         title: str,
-        selected: bool = False,
     ):
 
         super().__init__()
         self.title = title
-        self.selected = selected
 
-    def compose(self) -> ComposeResult:
-        """List of tasks"""
-
-        task_list = ScrollableContainer(
+        self.task_container = ScrollableContainer(
             *[
                 Static(name)
                 for name in [
@@ -33,8 +29,15 @@ class TaskList(Screen):
             ], classes="task-box"
         )
 
-        task_list.border_title = self.title
-        if self.selected:
-            task_list.add_class("selected")
+        self.task_container.border_title = self.title
 
-        yield task_list
+    def compose(self) -> ComposeResult:
+        """List of tasks"""
+
+        yield self.task_container
+
+    def on_focus(self) -> None:
+        self.task_container.add_class("selected")
+
+    def on_blur(self) -> None:
+        self.task_list.remove_class("selected")
