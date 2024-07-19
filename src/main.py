@@ -26,18 +26,47 @@ class LazyJiraApp(App):
     def compose(self) -> ComposeResult:
         """Create child widgets for the app."""
         yield Header()
-        container = ScrollableContainer(
+
+        infos = Static(
+            "Lazy Jira, the best Jira TUI on the planet", classes="task-box"
+        )
+        infos.border_title = "[1] Status"
+        yield infos
+
+        details = Static("Two", classes="details-box")
+        details.border_title = "Interesting Info"
+        yield details
+
+        sprint = ScrollableContainer(
             *[
                 Static(name)
-                for name in self.conductor.get_issues()
-            ], classes="box"
+                for name in [
+                    "TASK 1",
+                    "TASK 2",
+                    "TASK 3",
+                    "TASK 4",
+                    "TASK 5",
+                ]
+            ], classes="task-box selected"
         )
-        yield container
-        yield Static("Two", classes="box")
-        yield Static("Three", classes="box")
-        yield Static("Four", classes="box")
-        yield Static("Five", classes="box")
-        yield Static("Six", classes="box")
+        sprint.border_title = "[2] Sprint"
+        yield sprint
+
+        backlog = ScrollableContainer(
+            *[
+                Static(name)
+                for name in [
+                    "TASK 1",
+                    "TASK 2",
+                    "TASK 3",
+                    "TASK 4",
+                    "TASK 5",
+                ]
+            ], classes="task-box"
+        )
+        backlog.border_title = "[3] Backlog"
+        yield backlog
+
         yield Footer()
 
     def action_toggle_dark(self) -> None:

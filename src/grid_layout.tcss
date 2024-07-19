@@ -1,13 +1,32 @@
+$border: white;
+$sborder: lime;
+
 Screen {
     layout: grid;
-    grid-size: 3;
-    grid-columns: 2fr 1fr 1fr;
+    grid-size: 2;
+    grid-columns: 1fr 2fr;
+    grid-rows: 1fr 3fr 3fr;
     background: $background;
 }
 
 .box {
     height: 100%;
-    border: solid green;
+    border: $border;
+}
+
+.task-box {
+    height: 100%;
+    border: $border;
+}
+
+.selected {
+    border: $sborder;
+}
+
+.details-box {
+    height: 100%;
+    border: $border;
+    row-span: 3;
 }
 
 Static:focus-within {
