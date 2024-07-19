@@ -4,6 +4,7 @@ from textual.widgets import Static
 from textual.scroll_view import ScrollableContainer
 
 from conductor import Conductor
+from tasklist import TaskList
 
 
 class Kanban(Screen):
@@ -28,32 +29,8 @@ class Kanban(Screen):
         details.border_title = "Interesting Info"
         yield details
 
-        sprint = ScrollableContainer(
-            *[
-                Static(name)
-                for name in [
-                    "TASK 1",
-                    "TASK 2",
-                    "TASK 3",
-                    "TASK 4",
-                    "TASK 5",
-                ]
-            ], classes="task-box selected"
-        )
-        sprint.border_title = "[2] Sprint"
+        sprint = TaskList("[2] Sprint", selected=True)
         yield sprint
 
-        backlog = ScrollableContainer(
-            *[
-                Static(name)
-                for name in [
-                    "TASK 1",
-                    "TASK 2",
-                    "TASK 3",
-                    "TASK 4",
-                    "TASK 5",
-                ]
-            ], classes="task-box"
-        )
-        backlog.border_title = "[3] Backlog"
+        backlog = TaskList("[3] Backlog")
         yield backlog
