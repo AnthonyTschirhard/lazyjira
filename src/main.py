@@ -1,13 +1,14 @@
 from textual.app import App, ComposeResult
-from textual.widgets import Header, Footer, Static
-from textual.scroll_view import ScrollableContainer
+from textual.widgets import Header, Footer
 
 from conductor import Conductor
 from jira_client import JiraClient
+from kanban import Kanban
 
 
 class LazyJiraApp(App):
-    """A Textual app to manage stopwatches."""
+    """A Textual app to make Jira bearable"""
+
     CSS_PATH = "grid_layout.tcss"
 
     BINDINGS = [
@@ -27,45 +28,7 @@ class LazyJiraApp(App):
         """Create child widgets for the app."""
         yield Header()
 
-        infos = Static(
-            "Lazy Jira, the best Jira TUI on the planet", classes="task-box"
-        )
-        infos.border_title = "[1] Status"
-        yield infos
-
-        details = Static("Two", classes="details-box")
-        details.border_title = "Interesting Info"
-        yield details
-
-        sprint = ScrollableContainer(
-            *[
-                Static(name)
-                for name in [
-                    "TASK 1",
-                    "TASK 2",
-                    "TASK 3",
-                    "TASK 4",
-                    "TASK 5",
-                ]
-            ], classes="task-box selected"
-        )
-        sprint.border_title = "[2] Sprint"
-        yield sprint
-
-        backlog = ScrollableContainer(
-            *[
-                Static(name)
-                for name in [
-                    "TASK 1",
-                    "TASK 2",
-                    "TASK 3",
-                    "TASK 4",
-                    "TASK 5",
-                ]
-            ], classes="task-box"
-        )
-        backlog.border_title = "[3] Backlog"
-        yield backlog
+        yield Kanban(self.conductor)
 
         yield Footer()
 

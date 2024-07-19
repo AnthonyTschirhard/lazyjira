@@ -2,6 +2,10 @@ $border: white;
 $sborder: lime;
 
 Screen {
+    background: $background;
+}
+
+Kanban {
     layout: grid;
     grid-size: 2;
     grid-columns: 1fr 2fr;
