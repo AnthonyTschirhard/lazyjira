@@ -20,16 +20,16 @@ Kanban {
 
 .task-box {
     height: 100%;
-    border: $border;
+    border: round $border;
 }
 
 .selected {
-    border: $sborder;
+    border: round $sborder;
 }
 
 .details-box {
     height: 100%;
-    border: $border;
+    border: round $border;
     row-span: 3;
 }
 
