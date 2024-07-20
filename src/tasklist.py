@@ -2,10 +2,11 @@ from textual.app import ComposeResult
 from textual.screen import Screen
 from textual.events import Focus, Blur
 from textual.widgets import Static
+from textual.widget import Widget
 from textual.scroll_view import ScrollableContainer
 
 
-class TaskList(Screen):
+class TaskList(Widget):
     """The main view of the app"""
 
     def __init__(
@@ -36,8 +37,6 @@ class TaskList(Screen):
 
         yield self.task_container
 
-    def focus(self) -> None:
-        self.task_container.add_class("selected")
-
-    def blur(self) -> None:
-        self.task_container.remove_class("selected")
+    def toggle(self) -> None:
+        self.task_container.toggle_class("selected")
+        print(self.task_container.classes)

@@ -38,20 +38,23 @@ class Kanban(Screen):
 
         sprint = TaskList("[2] Sprint")
         self.widgets.append(sprint)
-        sprint.focus()
-        self.index_widgets = 1
+        sprint.toggle()
+        self.index_widgets = 2
         yield sprint
 
         backlog = TaskList("[3] Backlog")
         self.widgets.append(backlog)
+        backlog.focus()
         yield backlog
 
     def focus_next(self):
-        self.widgets[self.index_widgets].blur()
+        self.widgets[self.index_widgets].toggle()
         self.index_widgets += 1
-        self.widgets[self.index_widgets].focus()
+        self.widgets[self.index_widgets].toggle()
+        print(self.widgets)
 
     def focus_previous(self):
-        self.widgets[self.index_widgets].blur()
+        self.widgets[self.index_widgets].toggle()
         self.index_widgets -= 1
-        self.widgets[self.index_widgets].focus()
+        self.widgets[self.index_widgets].toggle()
+        print(self.widgets)
