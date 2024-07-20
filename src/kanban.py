@@ -1,7 +1,6 @@
 from textual.app import ComposeResult
 from textual.screen import Screen
 from textual.widgets import Static
-from textual.scroll_view import ScrollableContainer
 
 from conductor import Conductor
 from tasklist import TaskList
@@ -10,6 +9,8 @@ from tasklist import TaskList
 class Kanban(Screen):
     """The main view of the app"""
 
+    AUTO_FOCUS = True
+
     def __init__(
         self,
         conductor: Conductor,
@@ -17,7 +18,7 @@ class Kanban(Screen):
         self.conductor = conductor
 
         self.widgets = []
-        self.index_widgets = 2
+        self.index_widgets = None
 
         super().__init__()
 
@@ -36,15 +37,21 @@ class Kanban(Screen):
         yield details
 
         sprint = TaskList("[2] Sprint")
+        self.widgets.append(sprint)
+        sprint.focus()
+        self.index_widgets = 1
         yield sprint
-        sprint.on_focus()
 
         backlog = TaskList("[3] Backlog")
         self.widgets.append(backlog)
         yield backlog
 
     def focus_next(self):
-        # super().focus_next()
-        self.widgets[self.index_widgets].on_blur()
+        self.widgets[self.index_widgets].blur()
         self.index_widgets += 1
-        self.widgets[self.index_widgets].on_focus()
+        self.widgets[self.index_widgets].focus()
+
+    def focus_previous(self):
+        self.widgets[self.index_widgets].blur()
+        self.index_widgets -= 1
+        self.widgets[self.index_widgets].focus()

@@ -36,8 +36,8 @@ class TaskList(Screen):
 
         yield self.task_container
 
-    def on_focus(self) -> None:
+    def focus(self) -> None:
         self.task_container.add_class("selected")
 
-    def on_blur(self) -> None:
-        self.task_list.remove_class("selected")
+    def blur(self) -> None:
+        self.task_container.remove_class("selected")

@@ -14,6 +14,8 @@ class LazyJiraApp(App):
     BINDINGS = [
         ("d", "toggle_dark", "Toggle dark mode"),
         ("q", "quit", "Quit the app"),
+        ("h", "focus_previous", "focus_previous"),
+        ("l", "focus_next", "focus_next"),
     ]
 
     def __init__(
@@ -22,19 +24,31 @@ class LazyJiraApp(App):
     ):
         super().__init__()
 
-        self.conductor = conductor
+        self.kanban = Kanban(conductor)
 
     def compose(self) -> ComposeResult:
         """Create child widgets for the app."""
-        yield Header()
+        yield Header(name="Lazy Jira")
 
-        yield Kanban(self.conductor)
+        yield self.kanban
 
         yield Footer()
 
     def action_toggle_dark(self) -> None:
         """An action to toggle dark mode."""
         self.dark = not self.dark
+
+    def action_focus_next(self) -> None:
+        self.kanban.focus_next()
+
+    def action_focus_previous(self) -> None:
+        self.kanban.focus_previous()
+
+    # def action_focus_next(self) -> None:
+    #     self.kanban.focus_next()
+    #
+    # def action_focus_previous(self) -> None:
+    #     self.kanban.focus_previous()
 
 
 if __name__ == "__main__":
