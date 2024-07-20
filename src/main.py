@@ -16,8 +16,8 @@ class LazyJiraApp(App):
     BINDINGS = [
         ("d", "toggle_dark", "Toggle dark mode"),
         ("q", "quit", "Quit the app"),
-        ("h", "focus_previous", "focus_previous"),
-        ("l", "focus_next", "focus_next"),
+        ("h", "focus_previous", "Focus Previous"),
+        ("l", "focus_next", "Focus Next"),
     ]
 
     def __init__(
