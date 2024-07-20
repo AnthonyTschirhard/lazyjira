@@ -11,6 +11,8 @@ class LazyJiraApp(App):
 
     CSS_PATH = "grid_layout.tcss"
 
+    TITLE = "Lazy JIRA"
+
     BINDINGS = [
         ("d", "toggle_dark", "Toggle dark mode"),
         ("q", "quit", "Quit the app"),
@@ -28,7 +30,7 @@ class LazyJiraApp(App):
 
     def compose(self) -> ComposeResult:
         """Create child widgets for the app."""
-        yield Header(name="Lazy Jira")
+        yield Header()
 
         yield self.kanban
 
