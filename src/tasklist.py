@@ -1,6 +1,4 @@
 from textual.app import ComposeResult
-from textual.screen import Screen
-from textual.events import Focus, Blur
 from textual.widgets import Static
 from textual.widget import Widget
 from textual.scroll_view import ScrollableContainer
@@ -34,9 +32,7 @@ class TaskList(Widget):
 
     def compose(self) -> ComposeResult:
         """List of tasks"""
-
         yield self.task_container
 
     def toggle(self) -> None:
         self.task_container.toggle_class("selected")
-        print(self.task_container.classes)

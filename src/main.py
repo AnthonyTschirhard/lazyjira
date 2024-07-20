@@ -42,15 +42,11 @@ class LazyJiraApp(App):
 
     def action_focus_next(self) -> None:
         self.kanban.focus_next()
+        self.refresh()
 
     def action_focus_previous(self) -> None:
         self.kanban.focus_previous()
-
-    # def action_focus_next(self) -> None:
-    #     self.kanban.focus_next()
-    #
-    # def action_focus_previous(self) -> None:
-    #     self.kanban.focus_previous()
+        self.refresh()
 
 
 if __name__ == "__main__":
