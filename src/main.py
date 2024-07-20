@@ -14,7 +14,7 @@ class LazyJiraApp(App):
     TITLE = "Lazy JIRA"
 
     BINDINGS = [
-        ("d", "toggle_dark", "Toggle dark mode"),
+        # ("d", "toggle_dark", "Toggle dark mode"),
         ("q", "quit", "Quit the app"),
         ("h", "focus_previous", "Focus Previous"),
         ("l", "focus_next", "Focus Next"),
