@@ -1,38 +1,26 @@
-from textual.app import ComposeResult
-from textual.widgets import Static
-from textual.widget import Widget
-from textual.scroll_view import ScrollableContainer
+from textual.widgets import Static, ListItem, ListView
 
 
-class TaskList(Widget):
-    """The main view of the app"""
+class TaskList(ListView):
+    """The Kingdom of tasks"""
 
     def __init__(
         self,
         title: str,
+        task_names: list[str]
     ):
 
-        super().__init__()
+        super().__init__(
+            *[
+                ListItem(ListItem(Static(name)))
+                for name in task_names
+            ]
+        )
         self.title = title
 
-        self.task_container = ScrollableContainer(
-            *[
-                Static(name)
-                for name in [
-                    "TASK 1",
-                    "TASK 2",
-                    "TASK 3",
-                    "TASK 4",
-                    "TASK 5",
-                ]
-            ], classes="task-box"
-        )
+        self.border_title = self.title
 
-        self.task_container.border_title = self.title
-
-    def compose(self) -> ComposeResult:
-        """List of tasks"""
-        yield self.task_container
+        self.add_class("task-box")
 
     def toggle(self) -> None:
-        self.task_container.toggle_class("selected")
+        self.toggle_class("selected")

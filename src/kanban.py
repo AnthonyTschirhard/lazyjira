@@ -34,12 +34,18 @@ class Kanban(Screen):
         details.border_title = "Interesting Info"
         yield details
 
-        sprint = TaskList("[2] Sprint")
+        sprint = TaskList(
+            "[2] Sprint",
+            ["Task 1", "Task 2", "Task 3", "Task 4"]
+        )
         self.widgets.append(sprint)
         sprint.toggle()
         yield sprint
 
-        backlog = TaskList("[3] Backlog")
+        backlog = TaskList(
+            "[3] Backlog",
+            ["Task 1", "Task 2", "Task 3", "Task 4"]
+        )
         self.widgets.append(backlog)
         yield backlog
 
@@ -56,3 +62,16 @@ class Kanban(Screen):
             (self.index_widgets - 1) % len(self.widgets)
         )
         self.widgets[self.index_widgets].toggle()
+
+    # def on_button_pressed(self, event: Button.Pressed) -> None:
+    #     """Event handler called when a button is pressed."""
+    #     button_id = event.button.id
+    #     time_display = self.query_one(TimeDisplay)
+    #     if button_id == "start":
+    #         time_display.start()
+    #         self.add_class("started")
+    #     elif button_id == "stop":
+    #         time_display.stop()
+    #         self.remove_class("started")
+    #     elif button_id == "reset":
+    #         time_display.reset()
