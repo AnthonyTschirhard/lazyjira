@@ -10,17 +10,13 @@ class TaskList(ListView):
         task_names: list[str]
     ):
 
-        super().__init__(
-            *[
-                ListItem(ListItem(Static(name)))
-                for name in task_names
-            ]
-        )
+        self.items = [
+            ListItem(Static(name))
+            for name in task_names
+        ]
+        super().__init__(*self.items, classes="task-box")
+        self.initial_index = 1
+
         self.title = title
 
         self.border_title = self.title
-
-        self.add_class("task-box")
-
-    def toggle(self) -> None:
-        self.toggle_class("selected")

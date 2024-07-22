@@ -13,17 +13,12 @@ Kanban {
     background: $background;
 }
 
-.box {
-    height: 100%;
-    border: $border;
-}
-
 .task-box {
     height: 100%;
     border: round $border;
 }
 
-.selected {
+.task-box:focus {
     border: round $sborder;
 }
 
@@ -31,12 +26,4 @@ Kanban {
     height: 100%;
     border: round $border;
     row-span: 3;
-}
-
-Static:focus-within {
-    background: $primary-background-darken-1;
-}
-
-Static:blur {
-    background: $background;
 }
