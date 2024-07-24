@@ -18,7 +18,7 @@ class Kanban(Screen):
         self.conductor = conductor
 
         self.widgets = []
-        self.index_widgets = 0
+        self.index_widgets = -1
 
         super().__init__()
 
@@ -48,6 +48,8 @@ class Kanban(Screen):
         self.widgets.append(backlog)
         yield backlog
 
+        self.next_group()
+
     def next_group(self):
         self.index_widgets = (
             (self.index_widgets + 1) % len(self.widgets)
@@ -58,7 +60,4 @@ class Kanban(Screen):
         self.index_widgets = (
             (self.index_widgets - 1) % len(self.widgets)
         )
-        self.widgets[self.index_widgets].focus()
-
-    def on_focus(self):
         self.widgets[self.index_widgets].focus()
