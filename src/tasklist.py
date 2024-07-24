@@ -16,7 +16,16 @@ class TaskList(ListView):
         ]
         super().__init__(*self.items, classes="task-box")
         self.initial_index = 1
+        self.index = 0
 
         self.title = title
 
         self.border_title = self.title
+
+    def next_task(self):
+        print("Next Task")
+        self.index += 1
+
+    def previous_task(self):
+        print("Previous Task")
+        self.index -= 1

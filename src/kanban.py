@@ -11,6 +11,8 @@ class Kanban(Screen):
 
     AUTO_FOCUS = True
 
+    widgets: list[TaskList]
+
     def __init__(
         self,
         conductor: Conductor,
@@ -61,3 +63,9 @@ class Kanban(Screen):
             (self.index_widgets - 1) % len(self.widgets)
         )
         self.widgets[self.index_widgets].focus()
+
+    def next_task(self):
+        self.widgets[self.index_widgets].next_task()
+
+    def previous_task(self):
+        self.widgets[self.index_widgets].previous_task()
