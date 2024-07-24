@@ -48,13 +48,13 @@ class Kanban(Screen):
         self.widgets.append(backlog)
         yield backlog
 
-    def focus_next(self):
+    def next_group(self):
         self.index_widgets = (
             (self.index_widgets + 1) % len(self.widgets)
         )
         self.widgets[self.index_widgets].focus()
 
-    def focus_previous(self):
+    def previous_group(self):
         self.index_widgets = (
             (self.index_widgets - 1) % len(self.widgets)
         )

@@ -16,8 +16,8 @@ class LazyJiraApp(App):
     BINDINGS = [
         # ("d", "toggle_dark", "Toggle dark mode"),
         ("q", "quit", "Quit the app"),
-        ("h", "focus_previous", "Focus Previous"),
-        ("l", "focus_next", "Focus Next"),
+        ("h", "previous_group", "Previous"),
+        ("l", "next_group", "Next"),
     ]
 
     def __init__(
@@ -40,12 +40,12 @@ class LazyJiraApp(App):
         """An action to toggle dark mode."""
         self.dark = not self.dark
 
-    def action_focus_next(self) -> None:
-        self.kanban.focus_next()
+    def action_next_group(self) -> None:
+        self.kanban.next_group()
         self.refresh()
 
-    def action_focus_previous(self) -> None:
-        self.kanban.focus_previous()
+    def action_previous_group(self) -> None:
+        self.kanban.previous_group()
         self.refresh()
 
 
