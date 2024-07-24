@@ -18,7 +18,7 @@ Kanban {
     border: round $border;
 }
 
-.task-box:focus {
+.task-box:focus-within {
     border: round $sborder;
 }
 
@@ -26,4 +26,8 @@ Kanban {
     height: 100%;
     border: round $border;
     row-span: 3;
+}
+
+ListItem > :disabled {
+    background: $background;
 }
