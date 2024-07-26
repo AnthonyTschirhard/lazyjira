@@ -7,9 +7,7 @@ from tasklist import TaskList
 
 
 class Kanban(Screen):
-    """The main view of the app"""
-
-    AUTO_FOCUS = True
+    """Kanban is the main view of the app"""
 
     widgets: list[TaskList]
 
