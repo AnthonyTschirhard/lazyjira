@@ -104,10 +104,3 @@ if __name__ == "__main__":
 
     for jira_task in jira_tasks["TO DO"]:
         task = JiraTask(jira_task)
-        print("Jira Id: ", task.jira_id)
-        print("Jira summary: ", task.summary)
-        print("Jira status: ", task.status)
-        print("Jira complexity: ", task.complexity)
-        print("Jira priority: ", task.priority)
-        print("Jira due date: ", task.due_date)
-        input("Next?")
