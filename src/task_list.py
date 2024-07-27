@@ -1,5 +1,7 @@
 from textual.widgets import Static, ListItem, ListView
 
+from task_compound import TaskCompound
+
 
 class TaskList(ListView):
     """The Kingdom of tasks"""
@@ -11,7 +13,7 @@ class TaskList(ListView):
     ):
 
         self.items = [
-            ListItem(Static(name))
+            ListItem(TaskCompound())
             for name in task_names
         ]
         super().__init__(*self.items, classes="task-box")
