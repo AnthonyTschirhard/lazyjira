@@ -1,4 +1,4 @@
-from envs import JIRA_USER, JIRA_TOKEN, JIRA_SERVER, GTM_OPS
+from envs import JIRA_USER, JIRA_TOKEN, JIRA_SERVER, GTM_OPS, JIRA_STATUS_MAP
 from jira import JIRA
 from jira.resources import Issue
 
@@ -80,14 +80,25 @@ class JiraClient(JIRA):
 
     def get_my_issues(
         self,
-    ) -> dict:
-        issues = {}
+        status: str = "all",
+        max_results: int = 1000,
+    ) -> list:
+        issues = []
 
-        for status in ["In progress", "To do", "Done"]:
+        all_status = JIRA_STATUS_MAP.keys()
+
+        if status == "all":
+            status_filter = list(all_status)
+        elif status in all_status:
+            status_filter = [status]
+        else:
+            raise ValueError(f"unknown status {status}")
+
+        for status in status_filter:
             # for status in ["In progress", "To do"]:
-            issues[status.upper()] = super().search_issues(
+            issues += super().search_issues(
                 f"assignee=currentUser() and status='{status}'",
-                maxResults=100,
+                maxResults=max_results,
             )
 
         return issues
