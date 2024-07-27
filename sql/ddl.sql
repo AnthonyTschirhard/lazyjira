@@ -7,7 +7,7 @@ CREATE TABLE task (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     summary TEXT NOT NULL,
     project TEXT,
-    status TEXT CHECK( status IN ('ToDo','InProgress','Done') ) NOT NULL DEFAULT 'ToDo',
+    status TEXT CHECK( status IN ('TODO','INPROGRESS','DONE') ) NOT NULL DEFAULT 'TODO',
     jira_id TEXT,
     description TEXT,
     complexity INTEGER,
@@ -16,7 +16,7 @@ CREATE TABLE task (
     updated_date TIMESTAMP,
     resolution_date TIMESTAMP,
     due_date TIMESTAMP,
-    priority TEXT CHECK( priority IN ('Low','Medium','High') ) NOT NULL DEFAULT 'Medium'
+    priority TEXT CHECK( priority IN ('LOW','MEDIUM','HIGH') ) NOT NULL DEFAULT 'MEDIUM'
 );
 
 CREATE TABLE work_hour (
