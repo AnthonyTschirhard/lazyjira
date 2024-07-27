@@ -11,11 +11,12 @@ class Conductor():
         self.jira = jira
 
     def sync_jira_local(self):
-        issues = self.jira.get_my_issues()
-        for issue in issues["IN PROGRESS"]:
-            jira_task = JiraTask(issue)
+        pass
 
-    def get_issues(self):
+    def get_jira_issues(self):
+        return self.jira.get_my_issues()
+
+    def get_db_issues(self):
         return self.jira.get_my_issues()
 
 
