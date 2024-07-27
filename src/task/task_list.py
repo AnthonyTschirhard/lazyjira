@@ -1,6 +1,6 @@
-from textual.widgets import Static, ListItem, ListView
+from textual.widgets import ListItem, ListView
 
-from task_compound import TaskCompound
+from task.task_compound import TaskCompound
 
 
 class TaskList(ListView):
