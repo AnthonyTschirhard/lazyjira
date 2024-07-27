@@ -14,6 +14,7 @@ CREATE TABLE task (
     parent INTEGER,
     created_date TIMESTAMP,
     updated_date TIMESTAMP,
+    resolution_date TIMESTAMP,
     due_date TIMESTAMP,
     priority TEXT CHECK( priority IN ('Low','Medium','High') ) NOT NULL DEFAULT 'Medium'
 );
