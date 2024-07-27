@@ -1,6 +1,8 @@
 from client.jira_client import JiraClient
 from client.db_client import DBClient
 
+from task.task import JiraTask, DBTask
+
 
 class Conductor():
 
@@ -16,10 +18,16 @@ class Conductor():
         pass
 
     def get_jira_issues(self):
-        return self.jira_client.get_my_issues()
+        return [
+            JiraTask(task)
+            for task in self.jira_client.get_my_issues()
+        ]
 
     def get_db_issues(self):
-        return self.db_client.get_tasks()
+        return [
+            DBTask(task)
+            for task in self.db_client.get_tasks()
+        ]
 
 
 if __name__ == "__main__":
@@ -30,3 +38,4 @@ if __name__ == "__main__":
 
     conductor = Conductor(jira_client, db_client)
     issues = conductor.get_db_issues()
+    issues = conductor.get_jira_issues()
