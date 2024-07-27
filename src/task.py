@@ -11,13 +11,12 @@ class BaseTask():
         summary: str,
         project: str,
         status: str,
-        jira_id: str,
         description: str,
         complexity: int,
         parent: int,
         created_date: dt.datetime,
         updated_date: dt.datetime,
-        due_date: dt.datetime,
+        due_date: dt.date,
         priority: str,
     ):
         # checks
@@ -35,7 +34,6 @@ class BaseTask():
         self.summary = summary
         self.project = project
         self.status = status
-        self.jira_id = jira_id
         self.description = description
         self.complexity = complexity
         self.parent = parent
@@ -46,7 +44,7 @@ class BaseTask():
 
 
 class DBTask(BaseTask):
-    """a task object created from local databse"""
+    """a task object created from local database"""
 
     def __init__(
         self,
@@ -62,33 +60,54 @@ class JiraTask(BaseTask):
         issue: JiraIssue,
     ):
 
-        jira_id = issue.key
+        self.jira_id = issue.key
         summary = issue.get_field("summary")
         status = issue.get_field("status").name
-        # project =
-        # description =
-        # complexity =
-        # parent =
-        # created_date =
-        # updated_date =
-        # due_date =
-        # priority =
+        description = issue.get_field("description")
+        priority = issue.get_field("priority").name
+
+        due_date = issue.get_field("duedate")
+        if due_date is not None:
+            year, month, day = [
+                int(value) for value in due_date.split("-")
+            ]
+            due_date = dt.date(year=year, month=month, day=day)
+
+        complexity = issue.get_field("customfield_10005")
+        if isinstance(complexity, float):
+            complexity = int(complexity)
 
         super().__init__(
             id=None,
             summary=summary,
-            project=None,
             status=status,
-            jira_id=jira_id,
-            description=None,
-            complexity=None,
+            project=None,
+            description=description,
+            complexity=complexity,
             parent=None,
             created_date=None,
             updated_date=None,
-            due_date=None,
-            priority=None,
+            due_date=due_date,
+            priority=priority,
         )
 
 
 if __name__ == "__main__":
-    pass
+    from jira_client import JiraClient
+    from conductor import Conductor
+    from envs import JIRA_USER, JIRA_TOKEN
+
+    jira = JiraClient(JIRA_USER, JIRA_TOKEN)
+
+    conductor = Conductor(jira)
+    jira_tasks = conductor.get_issues()
+
+    for jira_task in jira_tasks["TO DO"]:
+        task = JiraTask(jira_task)
+        print("Jira Id: ", task.jira_id)
+        print("Jira summary: ", task.summary)
+        print("Jira status: ", task.status)
+        print("Jira complexity: ", task.complexity)
+        print("Jira priority: ", task.priority)
+        print("Jira due date: ", task.due_date)
+        input("Next?")
