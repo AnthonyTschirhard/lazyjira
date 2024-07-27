@@ -6,4 +6,6 @@ JIRA_SERVER = "https://bic-americas.atlassian.net/"
 JIRA_FIELD_STORY_POINTS = "customfield_10005"
 GTM_OPS = 12401
 
-SQLITE_PATH = "brother.db"
+SQLITE_PATH = "/home/atschirhard/Sources/lazyjira/brother.db"
+
+TASK_TABLE = "task"
