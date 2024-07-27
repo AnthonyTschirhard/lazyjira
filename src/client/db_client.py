@@ -10,6 +10,12 @@ class DBClient():
         self.engine = create_engine(f"sqlite:////{SQLITE_PATH}")
         self.metadata = MetaData()
 
+        self.task_table = Table(
+            TASK_TABLE,
+            self.metadata,
+            autoload_with=self.engine
+        )
+
     def create_task(
         self,
     ) -> None:
@@ -22,12 +28,7 @@ class DBClient():
         pass
 
     def get_tasks(self):
-        task_table = Table(
-            TASK_TABLE,
-            self.metadata,
-            autoload_with=self.engine
-        )
-        stmt = select(task_table)
+        stmt = select(self.task_table)
         with self.engine.connect() as con:
             rows = con.execute(stmt).all()
 
