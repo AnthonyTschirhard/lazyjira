@@ -6,7 +6,7 @@ JIRA_SERVER = "https://bic-americas.atlassian.net/"
 JIRA_FIELD_STORY_POINTS = "customfield_10005"
 JIRA_STATUS_MAP = {
     "To Do": "TODO",
-    "In Progrss": "IN_PROGRESS",
+    "In Progress": "IN_PROGRESS",
     "Done": "DONE",
 }
 GTM_OPS = 12401
