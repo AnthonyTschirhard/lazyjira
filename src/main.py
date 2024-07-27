@@ -4,6 +4,7 @@ from textual.widgets import Header, Footer
 from screen.kanban import Kanban
 from conductor import Conductor
 from client.jira_client import JiraClient
+from client.db_client import DBClient
 
 
 class LazyJiraApp(App):
@@ -62,8 +63,9 @@ class LazyJiraApp(App):
 if __name__ == "__main__":
 
     from envs import JIRA_USER, JIRA_TOKEN
-    jira = JiraClient(JIRA_USER, JIRA_TOKEN)
-    conductor = Conductor(jira)
+    jira_client = JiraClient(JIRA_USER, JIRA_TOKEN)
+    db_client = DBClient()
+    conductor = Conductor(jira_client, db_client)
 
     app = LazyJiraApp(conductor)
     app.run()
