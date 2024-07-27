@@ -1,9 +1,9 @@
 from textual.app import App, ComposeResult
 from textual.widgets import Header, Footer
 
+from screen.kanban import Kanban
 from conductor import Conductor
-from jira_client import JiraClient
-from kanban import Kanban
+from client.jira_client import JiraClient
 
 
 class LazyJiraApp(App):
