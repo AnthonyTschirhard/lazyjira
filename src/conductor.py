@@ -1,5 +1,5 @@
-from jira_client import JiraClient
-from db_client import DBClient
+from client.jira_client import JiraClient
+from client.db_client import DBClient
 
 
 class Conductor():

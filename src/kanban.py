@@ -3,7 +3,7 @@ from textual.screen import Screen
 from textual.widgets import Static
 
 from conductor import Conductor
-from task_list import TaskList
+from task.task_list import TaskList
 
 
 class Kanban(Screen):
