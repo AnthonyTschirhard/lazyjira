@@ -35,6 +35,7 @@ class BaseTask():
             )
 
         self.id = id
+        self.jira_id = jira_id
         self.summary = summary
         self.project = project
         self.status = status
@@ -47,6 +48,9 @@ class BaseTask():
         self.due_date = due_date
         self.priority = priority
 
+    def to_record(self):
+        return self.__dict__
+
 
 class DBTask(BaseTask):
     """a task object created from local database"""
@@ -55,7 +59,6 @@ class DBTask(BaseTask):
         self,
         fields: dict,
     ):
-        fields["id"] = None
         fields["parent"] = None
 
         super().__init__(
