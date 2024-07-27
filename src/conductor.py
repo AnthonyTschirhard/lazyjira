@@ -36,19 +36,24 @@ class Conductor():
             if task.jira_id is not None
         }
 
-        for task in jira_tasks:
-            if task.jira_id in jira_ids_mapping:
-                task.id = jira_ids_mapping[task.jira_id].id
-                self.update_local_task(task)
+        for jira_task in jira_tasks:
+            if jira_task.jira_id in jira_ids_mapping:
+                jira_task.id = jira_ids_mapping[jira_task.jira_id].id
+                self.update_local_task(jira_task)
             else:
-                # create a new task
-                pass
+                self.create_local_task(jira_task)
 
     def update_local_task(
         self,
         jira_task: JiraTask,
     ):
         self.db_client.update_task(jira_task)
+
+    def create_local_task(
+        self,
+        jira_task: JiraTask,
+    ):
+        self.db_client.create_task(jira_task)
 
 
 if __name__ == "__main__":

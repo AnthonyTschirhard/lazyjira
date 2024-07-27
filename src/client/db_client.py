@@ -33,10 +33,37 @@ class DBClient():
         self,
         task: JiraTask,
     ) -> None:
-        update_stmt = update(self.task_table)
+        table = self.task_table
+        primary_key_columns = table.primary_key.columns
+
+        record = task.to_record()
+
+        where_stmt = None
+        for key in primary_key_columns:
+            if where_stmt is None:
+                where_stmt = (
+                    table.columns[key.name] == record[key.name]
+                )
+            else:
+                where_stmt &= (
+                    table.columns[key.name] == record[key.name]
+                )
+            record.pop(key.name)
+
+        update_stmt = update(table).where(where_stmt).values(record)
 
         with self.engine.connect() as con:
-            con.execute(update_stmt, task.to_record())
+            con.execute(update_stmt)
+            con.commit()
+
+    def create_task(
+        self,
+        task: JiraTask,
+    ) -> None:
+        insert_stmt = insert(self.task_table)
+
+        with self.engine.connect() as con:
+            con.execute(insert_stmt, task.to_record())
             con.commit()
 
 
