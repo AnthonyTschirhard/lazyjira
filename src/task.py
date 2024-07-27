@@ -18,6 +18,7 @@ class BaseTask():
         parent: int,
         created_date: dt.datetime,
         updated_date: dt.datetime,
+        resolution_date: dt.datetime,
         due_date: dt.date,
         priority: str,
     ):
@@ -41,6 +42,7 @@ class BaseTask():
         self.parent = parent
         self.created_date = created_date
         self.updated_date = updated_date
+        self.resolution_date = resolution_date
         self.due_date = due_date
         self.priority = priority
 
@@ -68,6 +70,12 @@ class JiraTask(BaseTask):
         description = issue.get_field("description")
         priority = issue.get_field("priority").name
 
+        created_date = dt.datetime.fromisoformat(issue.get_field("created"))
+        updated_date = dt.datetime.fromisoformat(issue.get_field("updated"))
+        resolution_date = issue.get_field("resolutiondate")
+        if resolution_date is not None:
+            resolution_date = dt.datetime.fromisoformat(resolution_date)
+
         due_date = issue.get_field("duedate")
         if due_date is not None:
             year, month, day = [
@@ -87,8 +95,9 @@ class JiraTask(BaseTask):
             description=description,
             complexity=complexity,
             parent=None,
-            created_date=None,
-            updated_date=None,
+            created_date=created_date,
+            updated_date=updated_date,
+            resolution_date=resolution_date,
             due_date=due_date,
             priority=priority,
         )
@@ -96,13 +105,15 @@ class JiraTask(BaseTask):
 
 if __name__ == "__main__":
     from jira_client import JiraClient
+    from db_client import DBClient
     from conductor import Conductor
     from envs import JIRA_USER, JIRA_TOKEN
 
-    jira = JiraClient(JIRA_USER, JIRA_TOKEN)
+    jira_client = JiraClient(JIRA_USER, JIRA_TOKEN)
+    db_client = DBClient()
 
-    conductor = Conductor(jira)
-    jira_tasks = conductor.get_issues()
+    conductor = Conductor(jira_client, db_client)
+    jira_tasks = conductor.get_jira_issues()
 
-    for jira_task in jira_tasks["TO DO"]:
+    for jira_task in jira_tasks["DONE"]:
         task = JiraTask(jira_task)
