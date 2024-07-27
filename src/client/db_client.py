@@ -36,7 +36,6 @@ class DBClient():
         update_stmt = update(self.task_table)
 
         with self.engine.connect() as con:
-            record = task.to_record()
             con.execute(update_stmt, task.to_record())
             con.commit()
 
