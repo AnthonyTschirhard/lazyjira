@@ -10,6 +10,7 @@ class BaseTask():
     def __init__(
         self,
         id: int,
+        jira_id: str,
         summary: str,
         project: str,
         status: str,
@@ -23,14 +24,14 @@ class BaseTask():
         priority: str,
     ):
         # checks
-        if status not in [None, 'To Do', 'In Progress', 'Done']:
+        if status not in [None, 'TODO', 'IN_PROGRESS', 'DONE']:
             raise ValueError(
-                f"{status} not in ['To Do','In Progress','Done']"
+                f"{status} not in ['TODO','IN_PROGRESS','DONE']"
             )
 
-        if priority not in [None, 'Low', 'Medium', 'High']:
+        if priority not in [None, 'LOW', 'MEDIUM', 'HIGH']:
             raise ValueError(
-                f"{priority} not in ['Low', 'Medium', 'High']"
+                f"{priority} not in ['LOW', 'MEDIUM', 'HIGH']"
             )
 
         self.id = id
@@ -52,8 +53,14 @@ class DBTask(BaseTask):
 
     def __init__(
         self,
+        fields: dict,
     ):
-        super().__init__()
+        fields["id"] = None
+        fields["parent"] = None
+
+        super().__init__(
+            **fields
+        )
 
 
 class JiraTask(BaseTask):
@@ -64,7 +71,7 @@ class JiraTask(BaseTask):
         issue: JiraIssue,
     ):
 
-        self.jira_id = issue.key
+        jira_id = issue.key
         summary = issue.get_field("summary")
         status = issue.get_field("status").name
         description = issue.get_field("description")
@@ -89,6 +96,7 @@ class JiraTask(BaseTask):
 
         super().__init__(
             id=None,
+            jira_id=jira_id,
             summary=summary,
             status=status,
             project=None,
@@ -113,7 +121,12 @@ if __name__ == "__main__":
     db_client = DBClient()
 
     conductor = Conductor(jira_client, db_client)
+
     jira_tasks = conductor.get_jira_issues()
 
     for jira_task in jira_tasks["DONE"]:
         task = JiraTask(jira_task)
+
+    db_tasks = conductor.get_db_issues()
+    for db_task in db_tasks:
+        task = DBTask(db_task)
