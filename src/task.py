@@ -1,6 +1,8 @@
 import datetime as dt
 from jira.resources import Issue as JiraIssue
 
+from envs import JIRA_FIELD_STORY_POINTS
+
 
 class BaseTask():
     """a Base Task Object"""
@@ -73,7 +75,7 @@ class JiraTask(BaseTask):
             ]
             due_date = dt.date(year=year, month=month, day=day)
 
-        complexity = issue.get_field("customfield_10005")
+        complexity = issue.get_field(JIRA_FIELD_STORY_POINTS)
         if isinstance(complexity, float):
             complexity = int(complexity)
 
