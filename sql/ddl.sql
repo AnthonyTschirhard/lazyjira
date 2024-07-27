@@ -6,7 +6,7 @@ CREATE TABLE project (
 CREATE TABLE task (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     summary TEXT NOT NULL,
-    project TEXT NOT NULL,
+    project TEXT,
     status TEXT CHECK( status IN ('ToDo','InProgress','Done') ) NOT NULL DEFAULT 'ToDo',
     jira_id TEXT,
     description TEXT,
