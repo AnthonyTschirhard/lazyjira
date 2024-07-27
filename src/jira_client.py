@@ -83,7 +83,8 @@ class JiraClient(JIRA):
     ) -> dict:
         issues = {}
 
-        for status in ["In progress", "To do"]:
+        for status in ["In progress", "To do", "Done"]:
+            # for status in ["In progress", "To do"]:
             issues[status.upper()] = super().search_issues(
                 f"assignee=currentUser() and status='{status}'",
                 maxResults=100,

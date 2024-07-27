@@ -1,7 +1,7 @@
 import datetime as dt
 from jira.resources import Issue as JiraIssue
 
-from envs import JIRA_FIELD_STORY_POINTS
+from envs import JIRA_FIELD_STORY_POINTS, JIRA_STATUS_MAP
 
 
 class BaseTask():
@@ -73,9 +73,9 @@ class JiraTask(BaseTask):
 
         jira_id = issue.key
         summary = issue.get_field("summary")
-        status = issue.get_field("status").name
+        status = JIRA_STATUS_MAP[issue.get_field("status").name]
         description = issue.get_field("description")
-        priority = issue.get_field("priority").name
+        priority = issue.get_field("priority").name.upper()
 
         created_date = dt.datetime.fromisoformat(issue.get_field("created"))
         updated_date = dt.datetime.fromisoformat(issue.get_field("updated"))
