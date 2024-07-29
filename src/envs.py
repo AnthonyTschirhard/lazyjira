@@ -14,3 +14,4 @@ GTM_OPS = 12401
 SQLITE_PATH = "/home/atschirhard/Sources/lazyjira/brother.db"
 
 TASK_TABLE = "task"
+WORK_TABLE = "work_hour"
