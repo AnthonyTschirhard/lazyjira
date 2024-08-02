@@ -1,7 +1,7 @@
 from client.jira_client import JiraClient
 from client.db_client import DBClient
 
-from task.task import BaseTask, JiraTask, DBTask
+from task import BaseTask, JiraTask, DBTask
 
 
 class Conductor():
@@ -45,11 +45,11 @@ class Conductor():
             else:
                 self.create_local_task(jira_task)
 
-    def start_stop_task(
+    def toggle_task(
         self,
         task: BaseTask,
     ):
-        self.db_client.start_stop_task(task.id)
+        self.db_client.toggle_task(task.id)
 
     def update_local_task(
         self,
