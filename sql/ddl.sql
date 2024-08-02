@@ -20,11 +20,11 @@ CREATE TABLE task (
 );
 
 CREATE TABLE work_hour (
-    issue TEXT NOT NULL,
+    task TEXT NOT NULL,
     start_time TIMESTAMP,
     end_time TIMESTAMP,
 
-    PRIMARY KEY(issue, start_time, end_time)
+    PRIMARY KEY(task, start_time, end_time)
 );
 
 CREATE TABLE time_allocation (
