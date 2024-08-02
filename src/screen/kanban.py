@@ -34,17 +34,11 @@ class Kanban(Screen):
         details.border_title = "Interesting Info"
         yield details
 
-        sprint = TaskList(
-            "[2] Sprint",
-            ["Task 1", "Task 2", "Task 3", "Task 4"],
-        )
+        sprint = TaskList("sprint")
         self.widgets.append(sprint)
         yield sprint
 
-        backlog = TaskList(
-            "[3] Backlog",
-            ["Task 1", "Task 2", "Task 3", "Task 4"],
-        )
+        backlog = TaskList("backlog")
         self.widgets.append(backlog)
         yield backlog
 

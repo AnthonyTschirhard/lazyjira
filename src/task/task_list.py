@@ -2,25 +2,33 @@ from textual.widgets import ListItem, ListView
 
 from task.task_compound import TaskCompound
 
+TASK_LISTS = {
+    "sprint": {
+        "title": "[2] Sprint"
+    },
+    "backlog": {
+        "title": "[3] Backlog"
+    },
+}
+
 
 class TaskList(ListView):
     """The Kingdom of tasks"""
 
     def __init__(
         self,
-        title: str,
-        task_names: list[str]
+        list_name: str,
     ):
 
         self.items = [
             ListItem(TaskCompound())
-            for name in task_names
+            for name in [1, 2, 3, 4]
         ]
         super().__init__(*self.items, classes="task-box")
         self.initial_index = 1
         self.index = 0
 
-        self.title = title
+        self.title = TASK_LISTS[list_name]["title"]
 
         self.border_title = self.title
 
