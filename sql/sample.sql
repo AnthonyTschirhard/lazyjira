@@ -3,13 +3,13 @@ INSERT INTO task (
     jira_id,
     description,
     complexity,
-    is_in_sprint,
+    is_in_sprint
 ) VALUES (
     "Sample Summary",
     "GTMP-6164",
     "simple description",
     10,
-    1,
+    1
 ), (
     "Second task",
     "GTMP-7174",
