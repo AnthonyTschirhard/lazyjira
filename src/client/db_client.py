@@ -4,7 +4,7 @@ from sqlalchemy import select, insert, update
 
 from task import JiraTask
 
-from envs import SQLITE_PATH, TASK_TABLE, WORK_TABLE, STD_TIME_FORMAT
+from envs import SQLITE_PATH, TASK_TABLE, WORK_TABLE
 
 
 class DBClient():
@@ -91,7 +91,7 @@ class DBClient():
                 f"More than one active task: {ids}"
             )
 
-    def start_stop_task(
+    def toggle_task(
         self,
         task_id: int,
     ):
@@ -140,5 +140,5 @@ class DBClient():
 if __name__ == "__main__":
     client = DBClient()
     print(client.get_active_task())
-    client.start_stop_task(1)
-    client.start_stop_task(2)
+    client.toggle_task(1)
+    client.toggle_task(2)
