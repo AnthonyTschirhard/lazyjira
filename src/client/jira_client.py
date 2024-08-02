@@ -1,4 +1,5 @@
-from envs import JIRA_USER, JIRA_TOKEN, JIRA_SERVER, GTM_OPS, JIRA_STATUS_MAP
+from envs import GTM_OPS, BOARD_ID
+from envs import JIRA_USER, JIRA_TOKEN, JIRA_SERVER, JIRA_STATUS_MAP
 from jira import JIRA
 from jira.resources import Issue
 
@@ -80,28 +81,29 @@ class JiraClient(JIRA):
 
     def get_my_issues(
         self,
-        status: str = "all",
         max_results: int = 1000,
     ) -> list:
-        issues = []
-
-        all_status = JIRA_STATUS_MAP.keys()
-
-        if status == "all":
-            status_filter = list(all_status)
-        elif status in all_status:
-            status_filter = [status]
-        else:
-            raise ValueError(f"unknown status {status}")
-
-        for status in status_filter:
-            # for status in ["In progress", "To do"]:
-            issues += super().search_issues(
-                f"assignee=currentUser() and status='{status}'",
-                maxResults=max_results,
-            )
-
+        issues = super().search_issues(
+            "assignee=currentUser()",
+            maxResults=max_results,
+        )
         return issues
+
+    def get_active_sprint(self) -> str:
+        """return the name of the active sprint"""
+        i = 0
+        last_sprint = None
+
+        while True:
+            sprints = super().sprints(
+                board_id=BOARD_ID,
+                startAt=i,
+            )
+            if sprints:
+                last_sprint = sprints[-1]
+                i += len(sprints)
+            else:
+                return last_sprint.name
 
 
 if __name__ == "__main__":
@@ -120,3 +122,5 @@ if __name__ == "__main__":
     # )
 
     issues = myjira.get_my_issues()
+
+    print(myjira.get_active_sprint())
