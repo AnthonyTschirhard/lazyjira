@@ -8,8 +8,12 @@ JIRA_STATUS_MAP = {
     "To Do": "TODO",
     "In Progress": "IN_PROGRESS",
     "Done": "DONE",
+    "Ready to Deliver": "READY_TO_DELIVER",
+    "Reviewing Request": "REVIEWING_REQUEST",
+    "Backlog": "BACKLOG",
 }
 GTM_OPS = 12401
+BOARD_ID = 44
 
 SQLITE_PATH = "/home/atschirhard/Sources/lazyjira/brother.db"
 
