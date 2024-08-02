@@ -1,7 +1,7 @@
 from client.jira_client import JiraClient
 from client.db_client import DBClient
 
-from task.task import JiraTask, DBTask
+from task.task import BaseTask, JiraTask, DBTask
 
 
 class Conductor():
@@ -30,18 +30,26 @@ class Conductor():
         jira_tasks = self.get_jira_issues()
         db_tasks = self.get_db_issues()
 
+        # map jira ids and local DB tasks
         jira_ids_mapping = {
             task.jira_id: task
             for task in db_tasks
             if task.jira_id is not None
         }
 
+        # update or create new tasks
         for jira_task in jira_tasks:
             if jira_task.jira_id in jira_ids_mapping:
                 jira_task.id = jira_ids_mapping[jira_task.jira_id].id
                 self.update_local_task(jira_task)
             else:
                 self.create_local_task(jira_task)
+
+    def start_stop_task(
+        self,
+        task: BaseTask,
+    ):
+        self.db_client.start_stop_task(task.id)
 
     def update_local_task(
         self,

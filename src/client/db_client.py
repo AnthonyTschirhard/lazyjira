@@ -1,9 +1,9 @@
 from sqlalchemy import create_engine, MetaData, Table
 from sqlalchemy import select, insert, update
 
-from task.task import JiraTask
+from task import JiraTask
 
-from envs import SQLITE_PATH, TASK_TABLE
+from envs import SQLITE_PATH, TASK_TABLE, WORK_TABLE
 
 
 class DBClient():
@@ -15,6 +15,12 @@ class DBClient():
 
         self.task_table = Table(
             TASK_TABLE,
+            self.metadata,
+            autoload_with=self.engine
+        )
+
+        self.workhour_table = Table(
+            WORK_TABLE,
             self.metadata,
             autoload_with=self.engine
         )
@@ -66,7 +72,31 @@ class DBClient():
             con.execute(insert_stmt, task.to_record())
             con.commit()
 
+    def get_active_task(self) -> int:
+        """returns the id of the current active task in the database"""
+        select_stmt = select(self.workhour_table).where(
+            self.workhour_table.c.end_time.is_(None)
+        )
+        with self.engine.connect() as con:
+            result = con.execute(select_stmt).all()
+
+        if len(result) == 0:
+            return None
+        elif len(result) == 1:
+            return int(result[0]._asdict()["task"])
+        else:
+            ids = [r._asdict()["task"] for r in result]
+            raise ValueError(
+                f"More than one active task: {ids}"
+            )
+
+    def start_stop_task(
+        self,
+        task_id: int,
+    ):
+        pass
+
 
 if __name__ == "__main__":
     client = DBClient()
-    client.get_tasks()
+    print(client.get_active_task())
