@@ -8,6 +8,11 @@ INSERT INTO task (
     "GTMP-6164",
     "simple description",
     10
+), (
+    "Second task",
+    "GTMP-7174",
+    "simple description",
+    20
 );
 
 INSERT INTO work_hour (task, start_time, end_time)
@@ -17,6 +22,7 @@ INSERT INTO work_hour (task, start_time, end_time)
 VALUES (1, '2024-07-02 10:00:00', '2024-07-02 18:00:00');
 
 INSERT INTO work_hour (task, start_time, end_time)
-VALUES (1, '2024-07-03 08:00:00', '2024-07-03 16:00:00');
+VALUES (1, '2024-07-03 08:00:00', null);
+
 
  -- rm brother.db && sqlite3 brother.db < sql/ddl.sql && sqlite3 brother.db < sql/sample.sql
