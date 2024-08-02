@@ -91,45 +91,59 @@ class DBClient():
                 f"More than one active task: {ids}"
             )
 
+    def stop_task(
+        self,
+        task_id: int,
+    ) -> None:
+        now = dt.datetime.now()
+
+        update_stmt = update(
+            self.workhour_table
+        ).where(
+            self.workhour_table.c.end_time.is_(None)
+        ).values(
+            {
+                "end_time": now
+            }
+        )
+        with self.engine.connect() as con:
+            con.execute(update_stmt)
+            con.commit()
+
+    def start_task(
+        self,
+        task_id: int,
+    ) -> None:
+        now = dt.datetime.now()
+
+        insert_stmt = insert(
+            self.workhour_table
+        ).values(
+            {
+                "task": task_id,
+                "start_time": now,
+                "end_time": None,
+            }
+        )
+        with self.engine.connect() as con:
+            con.execute(insert_stmt)
+            con.commit()
+
     def toggle_task(
         self,
         task_id: int,
     ):
         active_task = self.get_active_task()
 
-        now = dt.datetime.now()
-
         # stop the current active task
         if task_id == active_task:
-            update_stmt = update(
-                self.workhour_table
-            ).where(
-                self.workhour_table.c.end_time.is_(None)
-            ).values(
-                {
-                    "end_time": now
-                }
-            )
-            with self.engine.connect() as con:
-                con.execute(update_stmt)
-                con.commit()
+            self.stop_task(task_id)
 
-        # start the task task_id
+            # start the task task_id
         elif active_task is None:
-            insert_stmt = insert(
-                self.workhour_table
-            ).values(
-                {
-                    "task": task_id,
-                    "start_time": now,
-                    "end_time": None,
-                }
-            )
-            with self.engine.connect() as con:
-                con.execute(insert_stmt)
-                con.commit()
+            self.start_task(task_id)
 
-        # else raise a ValueError
+            # else raise a ValueError
         else:
             raise ValueError((
                 f"task {task_id} can't be started while"
