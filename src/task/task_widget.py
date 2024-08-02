@@ -2,7 +2,7 @@ from textual.widgets import Static
 from textual.widget import Widget
 
 
-class TaskCompound(Widget):
+class TaskWidget(Widget):
     """A simple task object"""
 
     def __init__(
