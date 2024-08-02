@@ -15,8 +15,12 @@ class Conductor():
         self.db_client = db_client
 
     def get_jira_issues(self):
+        active_sprint = self.jira_client.get_active_sprint()
         return [
-            JiraTask(task)
+            JiraTask(
+                task,
+                active_sprint=active_sprint
+            )
             for task in self.jira_client.get_my_issues()
         ]
 

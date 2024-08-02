@@ -12,6 +12,7 @@ CREATE TABLE task (
     description TEXT,
     complexity INTEGER,
     parent INTEGER,
+    is_in_sprint INTEGER NOT NULL,
     created_date TIMESTAMP,
     updated_date TIMESTAMP,
     resolution_date TIMESTAMP,

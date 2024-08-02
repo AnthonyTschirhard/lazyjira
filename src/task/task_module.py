@@ -17,6 +17,7 @@ class BaseTask():
         description: str,
         complexity: int,
         parent: int,
+        is_in_sprint: bool,
         created_date: dt.datetime,
         updated_date: dt.datetime,
         resolution_date: dt.datetime,
@@ -24,9 +25,12 @@ class BaseTask():
         priority: str,
     ):
         # checks
-        if status not in [None, 'TODO', 'IN_PROGRESS', 'DONE']:
+        if status not in [
+            None, 'TODO', 'IN_PROGRESS', 'DONE',
+            'READY_TO_DELIVER', "REVIEWING_REQUEST", "BACKLOG",
+        ]:
             raise ValueError(
-                f"{status} not in ['TODO','IN_PROGRESS','DONE']"
+                f"{status} not in ['TODO','IN_PROGRESS','DONE', ...]"
             )
 
         if priority not in [None, 'LOW', 'MEDIUM', 'HIGH']:
@@ -42,6 +46,7 @@ class BaseTask():
         self.description = description
         self.complexity = complexity
         self.parent = parent
+        self.is_in_sprint = is_in_sprint
         self.created_date = created_date
         self.updated_date = updated_date
         self.resolution_date = resolution_date
@@ -72,9 +77,20 @@ class JiraTask(BaseTask):
     def __init__(
         self,
         issue: JiraIssue,
+        active_sprint: str,
     ):
 
         jira_id = issue.key
+
+        # find which tasks are in the current sprint
+        sprints = issue.get_field("customfield_10007")
+        if sprints is None:
+            sprints = []
+        is_in_sprint = any([
+            sprint.name == active_sprint
+            for sprint in sprints
+        ])
+
         summary = issue.get_field("summary")
         status = JIRA_STATUS_MAP[issue.get_field("status").name]
         description = issue.get_field("description")
@@ -107,6 +123,7 @@ class JiraTask(BaseTask):
             description=description,
             complexity=complexity,
             parent=None,
+            is_in_sprint=is_in_sprint,
             created_date=created_date,
             updated_date=updated_date,
             resolution_date=resolution_date,
@@ -116,8 +133,8 @@ class JiraTask(BaseTask):
 
 
 if __name__ == "__main__":
-    from jira_client import JiraClient
-    from db_client import DBClient
+    from client.jira_client import JiraClient
+    from client.db_client import DBClient
     from conductor import Conductor
     from envs import JIRA_USER, JIRA_TOKEN
 
@@ -127,9 +144,6 @@ if __name__ == "__main__":
     conductor = Conductor(jira_client, db_client)
 
     jira_tasks = conductor.get_jira_issues()
-
-    for jira_task in jira_tasks["DONE"]:
-        task = JiraTask(jira_task)
 
     db_tasks = conductor.get_db_issues()
     for db_task in db_tasks:
