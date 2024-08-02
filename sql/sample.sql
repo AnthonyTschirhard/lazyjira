@@ -2,17 +2,20 @@ INSERT INTO task (
     summary,
     jira_id,
     description,
-    complexity
+    complexity,
+    is_in_sprint,
 ) VALUES (
     "Sample Summary",
     "GTMP-6164",
     "simple description",
-    10
+    10,
+    1,
 ), (
     "Second task",
     "GTMP-7174",
     "simple description",
-    20
+    20,
+    0
 );
 
 INSERT INTO work_hour (task, start_time, end_time)
