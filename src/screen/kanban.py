@@ -25,7 +25,7 @@ class Kanban(Screen):
     def compose(self) -> ComposeResult:
         """Create child widgets for the app."""
         infos = Static(
-            "Lazy Jira, the best Jira TUI on the planet", classes="task-box"
+            "Lazy Jira, Jira made fun", classes="task-box"
         )
         infos.border_title = "[1] Status"
         yield infos
