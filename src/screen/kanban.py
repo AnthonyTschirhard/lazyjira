@@ -16,6 +16,7 @@ class Kanban(Screen):
         conductor: Conductor,
     ):
         self.conductor = conductor
+        self.conductor.sync_jira_local()
 
         self.widgets = []
         self.index_widgets = -1
@@ -30,15 +31,27 @@ class Kanban(Screen):
         infos.border_title = "[1] Status"
         yield infos
 
-        details = Static("Two", classes="details-box")
-        details.border_title = "Interesting Info"
+        details = Static("", classes="details-box")
+        details.border_title = "Details"
         yield details
 
-        sprint = TaskList("sprint")
+        sprint = TaskList(
+            "sprint",
+            self.conductor.get_db_issues(
+                in_sprint=True,
+                filter_done=False,
+            )
+        )
         self.widgets.append(sprint)
         yield sprint
 
-        backlog = TaskList("backlog")
+        backlog = TaskList(
+            "backlog",
+            self.conductor.get_db_issues(
+                in_sprint=False,
+                filter_done=True,
+            )
+        )
         self.widgets.append(backlog)
         yield backlog
 

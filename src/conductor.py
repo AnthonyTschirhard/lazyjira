@@ -24,11 +24,29 @@ class Conductor():
             for task in self.jira_client.get_my_issues()
         ]
 
-    def get_db_issues(self):
-        return [
+    def get_db_issues(
+        self,
+        in_sprint: bool = None,
+        filter_done: bool = False,
+    ):
+        all_tasks = [
             DBTask(task)
             for task in self.db_client.get_tasks()
         ]
+
+        if in_sprint is not None:
+            all_tasks = [
+                task for task in all_tasks
+                if task.is_in_sprint == in_sprint
+            ]
+
+        if filter_done:
+            all_tasks = [
+                task for task in all_tasks
+                if task.status != "DONE"
+            ]
+
+        return all_tasks
 
     def sync_jira_local(self):
         jira_tasks = self.get_jira_issues()

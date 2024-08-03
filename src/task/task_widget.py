@@ -1,18 +1,18 @@
 from textual.widgets import Static
-from textual.widget import Widget
+from textual.widgets import Static
+
+from task import BaseTask
 
 
-class TaskWidget(Widget):
+class TaskWidget(Static):
     """A simple task object"""
 
     def __init__(
         self,
+        task: BaseTask,
     ):
         super().__init__()
+        self.task_ = task
 
     def compose(self):
-        # super().compose()
-        yield Static("* ")
-        yield Static("Task 1")
-        yield Static("DR")
-        yield Static("AB")
+        yield Static(self.task_.summary)

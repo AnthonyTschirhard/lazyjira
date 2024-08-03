@@ -33,8 +33,5 @@ ListItem > :disabled {
 }
 
 TaskWidget {
-    layout: grid;
-    grid-size: 4;
-    grid-columns: 3 1fr 1fr 1fr;
 }
 

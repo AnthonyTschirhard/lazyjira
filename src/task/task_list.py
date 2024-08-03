@@ -1,6 +1,6 @@
 from textual.widgets import ListItem, ListView
 
-from task import TaskWidget
+from task import TaskWidget, BaseTask
 
 TASK_LISTS = {
     "sprint": {
@@ -18,11 +18,14 @@ class TaskList(ListView):
     def __init__(
         self,
         list_name: str,
+        tasks_list: list[BaseTask]
     ):
 
         self.items = [
-            ListItem(TaskWidget())
-            for name in [1, 2, 3, 4]
+            ListItem(TaskWidget(
+                task
+            ))
+            for task in tasks_list
         ]
         super().__init__(*self.items, classes="task-box")
         self.initial_index = 1
