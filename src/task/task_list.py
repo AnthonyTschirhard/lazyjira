@@ -36,9 +36,9 @@ class TaskList(ListView):
         self.border_title = self.title
 
     def next_task(self):
-        print("Next Task")
         self.index += 1
+        self.scroll_to_center(self.highlighted_child)
 
     def previous_task(self):
-        print("Previous Task")
         self.index -= 1
+        self.scroll_to_center(self.highlighted_child)
