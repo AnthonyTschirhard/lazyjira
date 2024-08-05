@@ -81,27 +81,36 @@ class JiraClient(JIRA):
 
     def get_my_issues(
         self,
-        max_results: int = 1000,
+        max_results: int = 100,
     ) -> list:
-        issues = super().search_issues(
-            "assignee=currentUser()",
-            maxResults=max_results,
-        )
-        return issues
+        index_ = 0
+        all_issues = []
+
+        while True:
+            issues = super().search_issues(
+                "assignee=currentUser()",
+                maxResults=max_results,
+                startAt=index_,
+            )
+            if issues:
+                index_ += len(issues)
+                all_issues = all_issues + issues
+            else:
+                return all_issues
 
     def get_active_sprint(self) -> str:
         """return the name of the active sprint"""
-        i = 0
+        index_ = 0
         last_sprint = None
 
         while True:
             sprints = super().sprints(
                 board_id=BOARD_ID,
-                startAt=i,
+                startAt=index_,
             )
             if sprints:
                 last_sprint = sprints[-1]
-                i += len(sprints)
+                index_ += len(sprints)
             else:
                 return last_sprint.name
 
@@ -123,4 +132,4 @@ if __name__ == "__main__":
 
     issues = myjira.get_my_issues()
 
-    print(myjira.get_active_sprint())
+    # print(myjira.get_active_sprint())
