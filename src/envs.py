@@ -8,6 +8,7 @@ JIRA_STATUS_MAP = {
     "To Do": "TODO",
     "In Progress": "IN_PROGRESS",
     "Done": "DONE",
+    "Cancelled": "CANCELLED",
     "Ready to Deliver": "READY_TO_DELIVER",
     "Reviewing Request": "REVIEWING_REQUEST",
     "Backlog": "BACKLOG",

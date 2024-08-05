@@ -26,7 +26,7 @@ class BaseTask():
     ):
         # checks
         if status not in [
-            None, 'TODO', 'IN_PROGRESS', 'DONE',
+            None, 'TODO', 'IN_PROGRESS', 'DONE', 'CANCELLED',
             'READY_TO_DELIVER', "REVIEWING_REQUEST", "BACKLOG",
         ]:
             raise ValueError(
