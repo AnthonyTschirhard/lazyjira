@@ -31,13 +31,8 @@ class LazyJiraApp(App):
 
         self.kanban = Kanban(conductor)
 
-    def compose(self) -> ComposeResult:
-        """Create child widgets for the app."""
-        yield Header()
-
-        yield self.kanban
-
-        yield Footer()
+    def on_mount(self):
+        self.push_screen(self.kanban)
 
     def action_toggle_dark(self) -> None:
         """An action to toggle dark mode."""

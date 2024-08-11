@@ -1,6 +1,6 @@
 from textual.app import ComposeResult
 from textual.screen import Screen
-from textual.widgets import Static
+from textual.widgets import Static, Header, Footer
 
 from conductor import Conductor
 from task.task_list import TaskList
@@ -25,6 +25,8 @@ class Kanban(Screen):
 
     def compose(self) -> ComposeResult:
         """Create child widgets for the app."""
+        yield Header()
+
         infos = Static(
             "Lazy Jira, Jira made fun", classes="task-box"
         )
@@ -55,7 +57,7 @@ class Kanban(Screen):
         self.widgets.append(backlog)
         yield backlog
 
-        self.next_group()
+        yield Footer()
 
     def next_group(self):
         self.index_widgets = (
