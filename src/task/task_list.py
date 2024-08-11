@@ -15,6 +15,11 @@ TASK_LISTS = {
 class TaskList(ListView):
     """The Kingdom of tasks"""
 
+    BINDINGS = [
+        ("k", "cursor_up", "Previous Task"),
+        ("j", "cursor_down", "Next Task"),
+    ]
+
     def __init__(
         self,
         list_name: str,
@@ -28,17 +33,5 @@ class TaskList(ListView):
             for task in tasks_list
         ]
         super().__init__(*self.items, classes="task-box")
-        self.initial_index = 1
-        self.index = 0
 
-        self.title = TASK_LISTS[list_name]["title"]
-
-        self.border_title = self.title
-
-    def next_task(self):
-        self.index += 1
-        self.scroll_to_center(self.highlighted_child)
-
-    def previous_task(self):
-        self.index -= 1
-        self.scroll_to_center(self.highlighted_child)
+        self.border_title = TASK_LISTS[list_name]["title"]
