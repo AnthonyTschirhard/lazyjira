@@ -15,7 +15,6 @@ class LazyJiraApp(App):
     TITLE = "Lazy JIRA"
 
     BINDINGS = [
-        # ("d", "toggle_dark", "Toggle dark mode"),
         ("q", "quit", "Quit the app"),
         ("h", "previous_group", "Previous Section"),
         ("l", "next_group", "Next Section"),
@@ -33,10 +32,6 @@ class LazyJiraApp(App):
 
     def on_mount(self):
         self.push_screen(self.kanban)
-
-    def action_toggle_dark(self) -> None:
-        """An action to toggle dark mode."""
-        self.dark = not self.dark
 
     def action_next_group(self) -> None:
         self.kanban.next_group()
