@@ -2,15 +2,6 @@ from textual.widgets import ListItem, ListView
 
 from task import TaskWidget, BaseTask
 
-TASK_LISTS = {
-    "sprint": {
-        "title": "[2] Sprint"
-    },
-    "backlog": {
-        "title": "[3] Backlog"
-    },
-}
-
 
 class TaskList(ListView):
     """The Kingdom of tasks"""
@@ -34,4 +25,4 @@ class TaskList(ListView):
         ]
         super().__init__(*self.items, classes="task-box")
 
-        self.border_title = TASK_LISTS[list_name]["title"]
+        self.border_title = list_name

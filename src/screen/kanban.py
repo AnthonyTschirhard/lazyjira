@@ -32,7 +32,7 @@ class Kanban(Screen):
         infos = Static(
             "Lazy Jira, Jira made fun", classes="task-box",
         )
-        infos.border_title = "[1] Status"
+        infos.border_title = "Status"
         yield infos
 
         details = Static("", classes="details-box")
@@ -40,7 +40,7 @@ class Kanban(Screen):
         yield details
 
         sprint = TaskList(
-            "sprint",
+            "Sprint",
             self.conductor.get_db_issues(
                 in_sprint=True,
                 filter_done=False,
@@ -49,7 +49,7 @@ class Kanban(Screen):
         yield sprint
 
         backlog = TaskList(
-            "backlog",
+            "Backlog",
             self.conductor.get_db_issues(
                 in_sprint=False,
                 filter_done=True,
