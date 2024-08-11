@@ -11,15 +11,17 @@ class Kanban(Screen):
 
     widgets: list[TaskList]
 
+    BINDINGS = [
+        ("l", "focus_next_group", "Next Group"),
+        ("h", "focus_previous_group", "Previous Group"),
+    ]
+
     def __init__(
         self,
         conductor: Conductor,
     ):
         self.conductor = conductor
-        self.conductor.sync_jira_local()
-
-        self.widgets = []
-        self.index_widgets = -1
+        # self.conductor.sync_jira_local()
 
         super().__init__()
 
@@ -28,7 +30,7 @@ class Kanban(Screen):
         yield Header()
 
         infos = Static(
-            "Lazy Jira, Jira made fun", classes="task-box"
+            "Lazy Jira, Jira made fun", classes="task-box",
         )
         infos.border_title = "[1] Status"
         yield infos
@@ -44,7 +46,6 @@ class Kanban(Screen):
                 filter_done=False,
             )
         )
-        self.widgets.append(sprint)
         yield sprint
 
         backlog = TaskList(
@@ -54,25 +55,12 @@ class Kanban(Screen):
                 filter_done=True,
             )
         )
-        self.widgets.append(backlog)
         yield backlog
 
         yield Footer()
 
-    def next_group(self):
-        self.index_widgets = (
-            (self.index_widgets + 1) % len(self.widgets)
-        )
-        self.widgets[self.index_widgets].focus()
+    def action_focus_next_group(self) -> None:
+        self.focus_next(TaskList)
 
-    def previous_group(self):
-        self.index_widgets = (
-            (self.index_widgets - 1) % len(self.widgets)
-        )
-        self.widgets[self.index_widgets].focus()
-
-    def next_task(self):
-        self.widgets[self.index_widgets].next_task()
-
-    def previous_task(self):
-        self.widgets[self.index_widgets].previous_task()
+    def action_focus_previous_group(self) -> None:
+        self.focus_previous(TaskList)

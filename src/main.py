@@ -1,5 +1,4 @@
-from textual.app import App, ComposeResult
-from textual.widgets import Header, Footer
+from textual.app import App
 
 from screen.kanban import Kanban
 from conductor import Conductor
@@ -16,10 +15,6 @@ class LazyJiraApp(App):
 
     BINDINGS = [
         ("q", "quit", "Quit the app"),
-        ("h", "previous_group", "Previous Section"),
-        ("l", "next_group", "Next Section"),
-        ("k", "previous_task", "Previous Task"),
-        ("j", "next_task", "Next Task"),
     ]
 
     def __init__(
@@ -32,22 +27,6 @@ class LazyJiraApp(App):
 
     def on_mount(self):
         self.push_screen(self.kanban)
-
-    def action_next_group(self) -> None:
-        self.kanban.next_group()
-        self.refresh()
-
-    def action_previous_group(self) -> None:
-        self.kanban.previous_group()
-        self.refresh()
-
-    def action_next_task(self) -> None:
-        self.kanban.next_task()
-        self.refresh()
-
-    def action_previous_task(self) -> None:
-        self.kanban.previous_task()
-        self.refresh()
 
 
 if __name__ == "__main__":
