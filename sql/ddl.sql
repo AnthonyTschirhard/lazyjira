@@ -35,3 +35,9 @@ CREATE TABLE time_allocation (
 
     PRIMARY KEY(project, period)
 );
+
+CREATE TABLE jira_update (
+    date TIMESTAMP PRIMARY KEY NOT NULL
+);
+
+INSERT INTO jira_update (date) VALUES ('1990-01-01 00:00:00');
