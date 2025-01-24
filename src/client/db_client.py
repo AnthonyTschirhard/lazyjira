@@ -1,10 +1,11 @@
+from envs import SQLITE_PATH, TASK_TABLE, WORK_TABLE, JIRA_UPDATE_TABLE
+from task import JiraTask
 import datetime as dt
 from sqlalchemy import create_engine, MetaData, Table
 from sqlalchemy import select, insert, update
 
-from task import JiraTask
-
-from envs import SQLITE_PATH, TASK_TABLE, WORK_TABLE
+import sys
+print(sys.path)
 
 
 class DBClient():
@@ -22,6 +23,12 @@ class DBClient():
 
         self.workhour_table = Table(
             WORK_TABLE,
+            self.metadata,
+            autoload_with=self.engine
+        )
+
+        self.jira_update_table = Table(
+            JIRA_UPDATE_TABLE,
             self.metadata,
             autoload_with=self.engine
         )
@@ -150,9 +157,17 @@ class DBClient():
                 f"{active_task} is running"
             ))
 
+    def get_last_jira_update(self):
+        stmt = select(self.jira_update_table)
+        with self.engine.connect() as con:
+            res = con.execute(stmt).scalar()
+            print(res)
+
 
 if __name__ == "__main__":
     client = DBClient()
-    print(client.get_active_task())
-    client.toggle_task(1)
-    client.toggle_task(2)
+    # print(client.get_active_task())
+    # client.toggle_task(1)
+    # client.toggle_task(2)
+
+    client.get_last_jira_update()
