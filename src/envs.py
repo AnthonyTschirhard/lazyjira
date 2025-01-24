@@ -16,7 +16,8 @@ JIRA_STATUS_MAP = {
 GTM_OPS = 12401
 BOARD_ID = 44
 
-SQLITE_PATH = "/home/atschirhard/Sources/lazyjira/brother.db"
+SQLITE_PATH = "/home/anthony/Source/lazyjira/brother.db"
 
 TASK_TABLE = "task"
 WORK_TABLE = "work_hour"
+JIRA_UPDATE_TABLE = "jira_update"
