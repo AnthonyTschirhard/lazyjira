@@ -1,5 +1,7 @@
-from envs import GTM_OPS, BOARD_ID
-from envs import JIRA_USER, JIRA_TOKEN, JIRA_SERVER, JIRA_STATUS_MAP
+import datetime as dt
+
+from envs import BOARD_ID
+from envs import JIRA_USER, JIRA_TOKEN, JIRA_SERVER
 from jira import JIRA
 from jira.resources import Issue
 
@@ -82,13 +84,20 @@ class JiraClient(JIRA):
     def get_my_issues(
         self,
         max_results: int = 100,
+        cutoff_date: dt.datetime = None
     ) -> list:
         index_ = 0
         all_issues = []
 
+        request = "assignee=currentUser()"
+
+        if cutoff_date:
+            cutoff_str = cutoff_date.strftime("%Y-%m-%d %H:%M")
+            request += f"AND updated > '{cutoff_str}'"
+
         while True:
             issues = super().search_issues(
-                "assignee=currentUser()",
+                request,
                 maxResults=max_results,
                 startAt=index_,
             )
